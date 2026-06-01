@@ -2,6 +2,8 @@
 
 (in-package #:app.tests)
 
+(in-suite :app)
+
 (defun response-status (response) (first response))
 (defun response-headers (response) (second response))
 (defun response-body (response) (first (third response)))
@@ -22,6 +24,6 @@
   (let ((health (app.web::health-handler nil))
         (version (app.web::version-handler nil)))
     (is (= 200 (response-status health)))
-    (is (string= "ok\n" (response-body health)))
+    (is (string= (format nil "ok~%") (response-body health)))
     (is (= 200 (response-status version)))
     (is (plusp (length (response-body version))))))
