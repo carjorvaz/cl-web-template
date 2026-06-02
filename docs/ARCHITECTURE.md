@@ -11,7 +11,7 @@ This scaffold is a server-rendered Common Lisp hypermedia app.
 - `src/web.lisp` owns Clack responses, Ningle routes, Spinneret rendering, static assets, and request parsing.
 - `assets/style.lass` is the source stylesheet.
 - `static/style.css` is generated CSS served by the web layer.
-- `t/` contains FiveAM tests.
+- `test/` contains FiveAM tests.
 - `scripts/` contains run, test, and validation entry points.
 
 ## Boundaries

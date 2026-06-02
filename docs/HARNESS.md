@@ -19,7 +19,7 @@ This repository is an agent-first Common Lisp web-app scaffold.
 - Keep domain logic independent from HTTP and rendering.
 - Prefer plain functions, structs, and conditions before macros or frameworks.
 - Keep package boundaries meaningful and mechanically checked.
-- Use `t/` for the default test module in this template. This is a common,
+- Use `test/` for the default test module in this template. This is a common,
   compact ASDF-era Lisp convention, but not a universal one; the important
   public affordance is that `app/test` and `just test` make the test suite
   obvious.

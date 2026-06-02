@@ -29,7 +29,7 @@
   :author "Contributors"
   :license "AGPL-3.0-or-later"
   :depends-on ("app" "fiveam")
-  :components ((:module "t"
+  :components ((:module "test"
                 :serial t
                 :components ((:file "package")
                              (:file "domain-tests")

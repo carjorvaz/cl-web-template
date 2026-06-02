@@ -56,7 +56,7 @@
                          '("## Start Here" "## Source Of Truth" "## Feedback Loop")))
 
 (defun validate-lisp-spdx-headers ()
-  (dolist (directory '("src/" "t/" "scripts/"))
+  (dolist (directory '("src/" "test/" "scripts/"))
     (dolist (pathname (uiop:directory-files (root-path directory)))
       (when (string-equal "lisp" (pathname-type pathname))
         (let ((content (uiop:read-file-string pathname)))

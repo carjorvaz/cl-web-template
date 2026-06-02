@@ -104,7 +104,7 @@ Keep the starter as an inspectable repository, not a hidden generator output:
 - `justfile` as the command menu for humans and agents;
 - focused docs under `docs/`;
 - validation and run scripts under `scripts/`;
-- Lisp source under `src/` and tests under `t/`;
+- Lisp source under `src/` and tests under `test/`;
 - authored CSS in `assets/style.lass` and generated CSS in `static/style.css`;
 - small static browser assets in `static/`;
 - CI under `.github/workflows/` that runs the same public validation loop.

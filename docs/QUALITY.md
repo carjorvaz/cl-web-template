@@ -10,8 +10,8 @@ browser smoke check, and remains copyable as a standalone template.
 
 ## Verification Matrix
 
-- Domain behavior: `t/domain-tests.lisp`.
-- Web rendering: `t/web-tests.lisp`.
+- Domain behavior: `test/domain-tests.lisp`.
+- Web rendering: `test/web-tests.lisp`.
 - Full Lisp suite: `scripts/test.lisp`.
 - Asset freshness: `scripts/validate-assets.lisp`.
 - Source boundaries: `scripts/validate-architecture.lisp`.

@@ -45,9 +45,9 @@ const requiredFiles = [
   'static/app.js',
   'static/htmx.min.js',
   'static/style.css',
-  't/package.lisp',
-  't/domain-tests.lisp',
-  't/web-tests.lisp',
+  'test/package.lisp',
+  'test/domain-tests.lisp',
+  'test/web-tests.lisp',
 ];
 
 const excludedRoots = new Set(['.git', '.jj', '.hermes', '.direnv', 'result']);

@@ -89,7 +89,7 @@ A new app should begin with this layout:
 │   ├── app.js
 │   ├── htmx.min.js
 │   └── style.css
-└── t/
+└── test/
     ├── domain-tests.lisp
     ├── package.lisp
     └── web-tests.lisp
