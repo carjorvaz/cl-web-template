@@ -1,6 +1,6 @@
 # Reliability
 
-Last reviewed: 2026-05-30
+Last reviewed: 2026-06-02
 
 ## Runtime
 
@@ -11,7 +11,7 @@ Runtime environment variables:
 
 - `PORT`: listen port.
 - `SERVER`: Clack backend keyword, default `woo`.
-- `SOURCE_CODE_URL`: footer source link.
+- `SOURCE_CODE_URL`: home-page source link.
 - `APP_VERSION`: version endpoint text.
 
 ## Feedback Loops

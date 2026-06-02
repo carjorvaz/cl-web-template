@@ -49,7 +49,7 @@ nix develop -c sbcl --script scripts/run.lisp
 
 The app listens on `http://127.0.0.1:4242/` by default. Set `PORT` to change
 the port, `SERVER=hunchentoot` to use the fallback backend, `SOURCE_CODE_URL` to
-change the footer link, and `APP_VERSION` to change `/version` output.
+change the source link, and `APP_VERSION` to change `/version` output.
 
 ## Test
 

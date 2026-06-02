@@ -1,6 +1,6 @@
 # Product
 
-Last reviewed: 2026-05-30
+Last reviewed: 2026-06-02
 
 ## App Contract
 
@@ -12,4 +12,4 @@ stylesheets, static assets, and validation harness are connected.
 - `/` shows the app title, summary, and links to health/version endpoints.
 - `/health` returns a plain `ok` readiness response.
 - `/version` returns the configured version string.
-- The footer links to the configured source URL.
+- The home page links to the configured source URL.
