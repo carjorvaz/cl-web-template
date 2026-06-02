@@ -29,7 +29,7 @@
 (defparameter *required-docs*
   '(("docs/README.md" ("Last reviewed:" "## Map" "## Maintenance Rules"))
     ("docs/ARCHITECTURE.md" ("Last reviewed:" "## Components" "## Boundaries" "## Mechanical Guards"))
-    ("docs/HARNESS.md" ("Last reviewed:" "## Agent-First Harness" "## Common Lisp Taste" "## Feedback Loops"))
+    ("docs/HARNESS.md" ("Last reviewed:" "## Agent-First Harness" "## Local History" "## Common Lisp Taste" "## Feedback Loops"))
     ("docs/PRODUCT.md" ("Last reviewed:" "## App Contract" "## User Experience"))
     ("docs/RELIABILITY.md" ("Last reviewed:" "## Runtime" "## Feedback Loops"))
     ("docs/QUALITY.md" ("Last reviewed:" "## Current Grade" "## Verification Matrix" "## Known Gaps"))

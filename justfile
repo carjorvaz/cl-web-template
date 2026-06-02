@@ -18,6 +18,15 @@ assets:
 build-assets:
     sbcl --script scripts/build-assets.lisp
 
+jj-status:
+    jj status
+
+jj-diff:
+    jj diff
+
+jj-ops:
+    jj op log
+
 browser-smoke:
     node scripts/browser-smoke.mjs
 

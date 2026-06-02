@@ -7,14 +7,15 @@ a map, not a manual; durable detail lives in `docs/`.
 
 1. Read `README.md` for run and test commands.
 2. Read `docs/README.md` to choose the right deeper document.
-3. Prefer the `just` menu from inside the Nix shell: `nix develop -c just --list`.
-4. Run `nix develop -c just test` after code changes.
-5. Run `nix develop -c just build-assets` after editing `assets/style.lass`.
-6. Run `nix develop -c just assets` after changing assets.
-7. Run `nix develop -c just architecture` after changing source boundaries.
-8. Run `nix develop -c just docs` after changing docs or guidance.
-9. Run `nix develop -c just browser-smoke` after UI changes.
-10. Run `nix develop -c just template-smoke` after changing template shape, repo metadata, or copyability assumptions.
+3. Prefer Jujutsu (`jj`) for local change inspection/editing; keep Git/GitHub for publication, tags, and CI visibility.
+4. Prefer the `just` menu from inside the Nix shell: `nix develop -c just --list`.
+5. Run `nix develop -c just test` after code changes.
+6. Run `nix develop -c just build-assets` after editing `assets/style.lass`.
+7. Run `nix develop -c just assets` after changing assets.
+8. Run `nix develop -c just architecture` after changing source boundaries.
+9. Run `nix develop -c just docs` after changing docs or guidance.
+10. Run `nix develop -c just browser-smoke` after UI changes.
+11. Run `nix develop -c just template-smoke` after changing template shape, repo metadata, or copyability assumptions.
 
 ## Source Of Truth
 

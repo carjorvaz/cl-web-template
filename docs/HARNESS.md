@@ -13,6 +13,17 @@ This repository is an agent-first Common Lisp web-app scaffold.
 - Prefer short-lived, reviewable changes.
 - Convert recurring review feedback into tests, docs, or validators.
 
+## Local History
+
+- Use Jujutsu (`jj`) as the default local history/editing interface for this
+  personal template repo.
+- Start agent runs with `nix develop -c just jj-status` and inspect local
+  changes with `nix develop -c just jj-diff`.
+- Keep Git/GitHub as the publication and compatibility layer: remotes, tags,
+  CI visibility, and GitHub operations.
+- After committing with JJ, explicitly move the publish bookmark before pushing,
+  for example `nix develop -c jj bookmark move main --to @-`.
+
 ## Common Lisp Taste
 
 - Prefer server-rendered HTML and ordinary form/link semantics.
