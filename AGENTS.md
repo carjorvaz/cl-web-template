@@ -7,13 +7,14 @@ a map, not a manual; durable detail lives in `docs/`.
 
 1. Read `README.md` for run and test commands.
 2. Read `docs/README.md` to choose the right deeper document.
-3. Run `sbcl --script scripts/test.lisp` after code changes.
-4. Run `sbcl --script scripts/build-assets.lisp` after editing `assets/style.lass`.
-5. Run `sbcl --script scripts/validate-assets.lisp` after changing assets.
-6. Run `sbcl --script scripts/validate-architecture.lisp` after changing source boundaries.
-7. Run `sbcl --script scripts/validate-docs.lisp` after changing docs or guidance.
-8. Run `node scripts/browser-smoke.mjs` after UI changes.
-9. Run `node scripts/template-smoke.mjs` after changing template shape, repo metadata, or copyability assumptions.
+3. Prefer the `just` menu from inside the Nix shell: `nix develop -c just --list`.
+4. Run `nix develop -c just test` after code changes.
+5. Run `nix develop -c just build-assets` after editing `assets/style.lass`.
+6. Run `nix develop -c just assets` after changing assets.
+7. Run `nix develop -c just architecture` after changing source boundaries.
+8. Run `nix develop -c just docs` after changing docs or guidance.
+9. Run `nix develop -c just browser-smoke` after UI changes.
+10. Run `nix develop -c just template-smoke` after changing template shape, repo metadata, or copyability assumptions.
 
 ## Source Of Truth
 
@@ -25,6 +26,7 @@ a map, not a manual; durable detail lives in `docs/`.
 - `docs/PLANS.md` explains when to create execution plans.
 - `docs/TEMPLATE.md` defines the template contract and deviation policy.
 - `docs/technical-debt.md` records focused cleanup work.
+- `justfile` is the ergonomic command menu; keep the real validation logic in scripts and Nix.
 
 ## Architecture Rules
 

@@ -17,6 +17,7 @@ const requiredFiles = [
   'LICENSE',
   'README.md',
   'app.asd',
+  'justfile',
   'assets/style.lass',
   'docs/README.md',
   'docs/ARCHITECTURE.md',
@@ -49,7 +50,7 @@ const requiredFiles = [
   't/web-tests.lisp',
 ];
 
-const excludedRoots = new Set(['.git', '.direnv', 'result']);
+const excludedRoots = new Set(['.git', '.jj', '.hermes', '.direnv', 'result']);
 
 function shouldCopy(sourcePath) {
   const rel = relative(repoRoot, sourcePath);

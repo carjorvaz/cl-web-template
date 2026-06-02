@@ -48,9 +48,18 @@
       packages = forAllSystems (system: let pkgs = mkPkgs system; in { default = mkPackage pkgs; });
       devShells = forAllSystems (system:
         let pkgs = mkPkgs system; lisp = mkLisp pkgs;
-        in { default = pkgs.mkShell { packages = [ lisp pkgs.nodejs pkgs.playwright ]; shellHook = ''
+        in { default = pkgs.mkShell { packages = [
+          lisp
+          pkgs.nodejs
+          pkgs.playwright
+          pkgs.git
+          pkgs.just
+          pkgs.jujutsu
+          pkgs.difftastic
+        ]; shellHook = ''
           export PLAYWRIGHT_CORE_PATH="${pkgs.playwright}/index.js"
           export PLAYWRIGHT_BROWSERS_PATH="${pkgs.playwright.browsers}"
+          echo "Command menu: just --list"
           echo "Run app: sbcl --script scripts/run.lisp"
           echo "Run tests: sbcl --script scripts/test.lisp"
           echo "Browser smoke: node scripts/browser-smoke.mjs"

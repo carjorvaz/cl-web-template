@@ -1,4 +1,6 @@
 .direnv/
+.jj/
+.hermes/
 .lisp-cache/
 *.fasl
 *.dx64fsl

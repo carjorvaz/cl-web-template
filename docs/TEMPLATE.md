@@ -57,6 +57,7 @@ A new app should begin with this layout:
 ├── LICENSE
 ├── README.md
 ├── app.asd
+├── justfile
 ├── assets/style.lass
 ├── docs/
 │   ├── README.md
@@ -148,6 +149,8 @@ The template is useful only if it carries the feedback loop with it:
   page, and rejects unexpected external requests.
 - `scripts/template-smoke.mjs` copies the repository into a temporary app and
   runs that copied app's docs, assets, Lisp tests, and architecture checks.
+- `justfile` is the ergonomic command menu; recipes call the same scripts and
+  checks rather than duplicating validation logic.
 - `nix flake check` runs the deterministic suite expected in CI.
 - `nix run .#browser-smoke` and `nix run .#template-smoke` exercise browser and
   copyability paths from Nix-packaged source.

@@ -54,18 +54,21 @@ change the footer link, and `APP_VERSION` to change `/version` output.
 ## Test
 
 ```sh
-sbcl --script scripts/test.lisp
-sbcl --script scripts/validate-docs.lisp
-sbcl --script scripts/validate-architecture.lisp
-sbcl --script scripts/validate-assets.lisp
-node scripts/browser-smoke.mjs
-node scripts/template-smoke.mjs
+nix develop -c just --list
+nix develop -c just validate
+nix develop -c just browser-smoke
+nix develop -c just template-smoke
 ```
+
+The underlying scripts remain plain and directly runnable inside the Nix shell:
+`scripts/test.lisp`, `scripts/validate-docs.lisp`,
+`scripts/validate-architecture.lisp`, `scripts/validate-assets.lisp`,
+`scripts/browser-smoke.mjs`, and `scripts/template-smoke.mjs`.
 
 Regenerate CSS after editing `assets/style.lass`:
 
 ```sh
-sbcl --script scripts/build-assets.lisp
+nix develop -c just build-assets
 ```
 
 Run all deterministic Nix checks with:
@@ -98,6 +101,7 @@ Keep the starter as an inspectable repository, not a hidden generator output:
 
 - `.envrc`, `flake.nix`, `flake.lock`, `app.asd`, `README.md`, `LICENSE`, and
   `AGENTS.md`;
+- `justfile` as the command menu for humans and agents;
 - focused docs under `docs/`;
 - validation and run scripts under `scripts/`;
 - Lisp source under `src/` and tests under `t/`;
