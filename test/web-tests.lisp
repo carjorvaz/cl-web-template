@@ -11,6 +11,23 @@
   (loop for rest on (response-headers response) by #'cddr
         when (string-equal (string key) (string (first rest))) return (second rest)))
 
+(defun get-env (path)
+  (list :request-method :get
+        :path-info path
+        :script-name ""
+        :query-string ""
+        :server-name "localhost"
+        :server-port 4242
+        :server-protocol :http/1.1
+        :url-scheme "http"
+        :request-uri path
+        :remote-addr "127.0.0.1"
+        :headers (make-hash-table :test #'equal)
+        :raw-body (make-string-input-stream "")))
+
+(defun app-response (app path)
+  (funcall app (get-env path)))
+
 (defparameter *expected-default-security-headers*
   '((:x-content-type-options . "nosniff")
     (:x-frame-options . "DENY")
@@ -54,3 +71,17 @@
     (is (string= "text/css; charset=utf-8" (header-value response :content-type)))
     (is (string= "public, max-age=3600" (header-value response :cache-control)))
     (assert-default-security-headers response)))
+
+(test app-boundary-routes-keep-default-security-headers
+  (let* ((app (app.web::make-app))
+         (home (app-response app "/"))
+         (health (app-response app "/health"))
+         (missing (app-response app "/missing")))
+    (is (= 200 (response-status home)))
+    (is (search "Common Lisp Web App" (response-body home)))
+    (assert-default-security-headers home)
+    (is (= 200 (response-status health)))
+    (is (string= (format nil "ok~%") (response-body health)))
+    (assert-default-security-headers health)
+    (is (= 404 (response-status missing)))
+    (assert-default-security-headers missing)))
