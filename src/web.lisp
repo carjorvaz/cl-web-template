@@ -11,6 +11,9 @@
   '(("/style.css" "static/style.css" "text/css; charset=utf-8")
     ("/app.js" "static/app.js" "application/javascript; charset=utf-8")
     ("/htmx.min.js" "static/htmx.min.js" "application/javascript; charset=utf-8")))
+(defparameter *page-links*
+  '((:label "Health" :href "/health")
+    (:label "Version" :href "/version")))
 (defparameter *security-headers*
   (list :x-content-type-options "nosniff"
         :x-frame-options "DENY"
@@ -21,38 +24,60 @@
 
 (defun configured-source-code-url ()
   (or (uiop:getenv "SOURCE_CODE_URL") *source-code-url*))
+
 (defun configured-version ()
   (or (uiop:getenv "APP_VERSION") "dev"))
+
 (defun system-path (relative-path)
   (merge-pathnames relative-path (asdf:system-source-directory :app)))
+
 (defun header-key-name (key)
-  (etypecase key (keyword (string-downcase (symbol-name key))) (string (string-downcase key))))
+  (etypecase key
+    (keyword (string-downcase (symbol-name key)))
+    (string (string-downcase key))))
+
 (defun header-present-p (headers key)
-  (loop for rest on headers by #'cddr for name = (first rest)
-        thereis (string= (header-key-name name) (header-key-name key))))
+  (let ((wanted (header-key-name key)))
+    (loop for rest on headers by #'cddr
+          for name = (first rest)
+          thereis (string= (header-key-name name) wanted))))
+
 (defun missing-default-headers (headers defaults)
-  (loop for (name value) on defaults by #'cddr unless (header-present-p headers name) append (list name value)))
+  (loop for (name value) on defaults by #'cddr
+        unless (header-present-p headers name)
+          append (list name value)))
+
 (defun response-headers (&key content-type headers)
   (let ((explicit (append (when content-type (list :content-type content-type)) headers)))
     (append explicit (missing-default-headers explicit *security-headers*))))
+
 (defun clack-response (status body &key content-type headers)
   (list status (response-headers :content-type content-type :headers headers) (list body)))
+
 (defun response-with-default-headers (response)
   (destructuring-bind (status headers &optional (body nil body-p)) response
     (let ((headers (append headers (missing-default-headers headers *security-headers*))))
       (if body-p (list status headers body) (list status headers)))))
+
 (defun wrap-default-headers (app)
   (lambda (env) (response-with-default-headers (funcall app env))))
+
 (defun html-response (body)
   (clack-response 200 body :content-type *html-content-type*))
+
 (defun not-found-response ()
   (clack-response 404 "Not found" :content-type *plain-text-content-type*))
+
 (defun asset-response (relative-path content-type)
   (let ((path (system-path relative-path)))
     (if (probe-file path)
         (clack-response 200 (uiop:read-file-string path) :content-type content-type
                         :headers (list :cache-control "public, max-age=3600"))
         (not-found-response))))
+
+(defun page-links ()
+  (append *page-links*
+          (list (list :label "Source" :href (configured-source-code-url)))))
 
 (defun render-page ()
   (spinneret:with-html-string
@@ -73,17 +98,32 @@
             (:p (app-summary))
             (:ul (dolist (line (status-lines)) (:li line)))
             (:nav :class "actions" :aria-label "Application links"
-              (:a :href "/health" "Health")
-              (:a :href "/version" "Version")
-              (:a :href (configured-source-code-url) "Source"))))))))
+              (dolist (link (page-links))
+                (destructuring-bind (&key label href) link
+                  (:a :href href label))))))))))
 
-(defun home-handler (params) (declare (ignore params)) (html-response (render-page)))
-(defun health-handler (params) (declare (ignore params)) (clack-response 200 (format nil "ok~%") :content-type *plain-text-content-type*))
-(defun version-handler (params) (declare (ignore params)) (clack-response 200 (format nil "~A~%" (configured-version)) :content-type *plain-text-content-type*))
+(defun home-handler (params)
+  (declare (ignore params))
+  (html-response (render-page)))
+
+(defun health-handler (params)
+  (declare (ignore params))
+  (clack-response 200 (format nil "ok~%")
+                  :content-type *plain-text-content-type*))
+
+(defun version-handler (params)
+  (declare (ignore params))
+  (clack-response 200 (format nil "~A~%" (configured-version))
+                  :content-type *plain-text-content-type*))
+
 (defun make-asset-handler (relative-path content-type)
-  (lambda (params) (declare (ignore params)) (asset-response relative-path content-type)))
+  (lambda (params)
+    (declare (ignore params))
+    (asset-response relative-path content-type)))
+
 (defun install-route (app method path handler)
   (setf (ningle:route app path :method method) handler) app)
+
 (defun make-routes ()
   (let ((app (make-instance 'ningle:app)))
     (install-route app :get "/" #'home-handler)
@@ -92,14 +132,28 @@
     (dolist (asset *static-assets* app)
       (destructuring-bind (path relative-path content-type) asset
         (install-route app :get path (make-asset-handler relative-path content-type))))))
+
 (defun make-app ()
   (wrap-default-headers (lack:builder (make-routes))))
+
 (defun start (&key (port 4242) (server :woo) (debug nil) silent)
+  "Start the Clack application and remember the live server handle."
   (stop)
-  (setf *server* (clack:clackup (make-app) :server server :port port :debug debug :silent silent :use-default-middlewares nil :persistent-connections-p nil)
+  (setf *server* (clack:clackup (make-app)
+                                :server server
+                                :port port
+                                :debug debug
+                                :silent silent
+                                :use-default-middlewares nil
+                                :persistent-connections-p nil)
         *server-port* port)
   *server*)
+
 (defun stop ()
+  "Stop the live Clack server, if one is running."
   (when *server* (clack:stop *server*) (setf *server* nil *server-port* nil))
   nil)
-(defun server-port () *server-port*)
+
+(defun server-port ()
+  "Return the remembered port for the live server, or NIL when stopped."
+  *server-port*)
