@@ -24,7 +24,7 @@ gh repo create my-common-lisp-app \
 Or copy it locally:
 
 ```sh
-cp -R /path/to/cl-web-template /path/to/my-common-lisp-app
+git clone --no-local /path/to/cl-web-template /path/to/my-common-lisp-app
 cd /path/to/my-common-lisp-app
 rm -rf .git
 git init -b main

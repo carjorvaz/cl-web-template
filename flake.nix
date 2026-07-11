@@ -8,10 +8,18 @@
       systems = [ "aarch64-darwin" "aarch64-linux" "x86_64-linux" ];
       forAllSystems = nixpkgs.lib.genAttrs systems;
       mkPkgs = system: import nixpkgs { inherit system; };
-      mkLisp = pkgs: pkgs.sbcl.withPackages (ps: with ps; [
-        clack lack ningle spinneret lass clack-handler-woo hunchentoot
-        clack-handler-hunchentoot fiveam
-      ]);
+      mkLisp = pkgs:
+        let
+          sbcl = pkgs.sbcl.withOverrides (_final: prev:
+            pkgs.lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
+              woo = prev.woo.overrideLispAttrs (old: {
+                patches = (old.patches or [ ]) ++ [ ./nix/woo-freebsd-sf-mnowait.patch ];
+              });
+            });
+        in sbcl.withPackages (ps: with ps; [
+          clack lack ningle spinneret lass clack-handler-woo hunchentoot
+          clack-handler-hunchentoot fiveam
+        ]);
       mkPackage = pkgs:
         let lisp = mkLisp pkgs;
         in pkgs.stdenvNoCC.mkDerivation {

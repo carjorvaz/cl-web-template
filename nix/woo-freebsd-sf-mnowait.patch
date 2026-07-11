@@ -1,0 +1,25 @@
+Subject: [PATCH] Restrict SF_MNOWAIT groveling to FreeBSD
+Upstream-Status: Backport [ffb6ff604ee84a09f13eafa12d495e0a86861f7c]
+
+Darwin exposes SBCL's :bsd feature but does not define FreeBSD's SF_MNOWAIT.
+Keep the grovelled header and constant behind Woo's upstream FreeBSD guard.
+
+diff --git a/src/syscall/types.lisp b/src/syscall/types.lisp
+--- a/src/syscall/types.lisp
++++ b/src/syscall/types.lisp
+@@ -1,5 +1,5 @@
+ (include "sys/types.h" "sys/fcntl.h" "errno.h")
+-#+(or freebsd bsd)
++#+freebsd
+ (include "sys/socket.h")
+ 
+ (in-package :woo.syscall)
+@@ -10,7 +10,7 @@
+ (ctype off-t "off_t")
+ (ctype mode-t "mode_t")
+ 
+-#+(or freebsd bsd)
++#+freebsd
+ (constant (+SF-MNOWAIT+ "SF_MNOWAIT"))
+ 
+ (constant (+O-RDONLY+ "O_RDONLY"))

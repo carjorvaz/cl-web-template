@@ -88,6 +88,7 @@
         (:meta :name "viewport" :content "width=device-width, initial-scale=1")
         (:title (app-title))
         (:link :rel "stylesheet" :href "/style.css")
+        (:meta :name "htmx-config" :content "{\"includeIndicatorStyles\":false}")
         (:script :src "/htmx.min.js" :defer t)
         (:script :src "/app.js" :defer t))
       (:body
